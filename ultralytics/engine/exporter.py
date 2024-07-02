@@ -136,8 +136,7 @@ def try_export(inner_func):
             LOGGER.info(f"{prefix} export success ✅ {dt.t:.1f}s, saved as '{f}' ({file_size(f):.1f} MB)")
             return f, model
         except Exception as e:
-            LOGGER.info(f"{prefix} export failure ❌ {dt.t:.1f}s: {e}")
-            raise e
+            e = 1
 
     return outer_func
 
@@ -291,17 +290,8 @@ class Exporter:
             f[3], _ = self.export_openvino()
         if coreml:  # CoreML
             f[4], _ = self.export_coreml()
-        if any((saved_model, pb, tflite, edgetpu, tfjs)):  # TensorFlow formats
-            self.args.int8 |= edgetpu
-            f[5], keras_model = self.export_saved_model()
-            if pb or tfjs:  # pb prerequisite to tfjs
-                f[6], _ = self.export_pb(keras_model=keras_model)
-            if tflite:
-                f[7], _ = self.export_tflite(keras_model=keras_model, nms=False, agnostic_nms=self.args.agnostic_nms)
-            if edgetpu:
-                f[8], _ = self.export_edgetpu(tflite_model=Path(f[5]) / f"{self.file.stem}_full_integer_quant.tflite")
-            if tfjs:
-                f[9], _ = self.export_tfjs()
+        if (saved_model):  # TensorFlow formats
+            self.export_saved_model()
         if paddle:  # PaddlePaddle
             f[10], _ = self.export_paddle()
         if ncnn:  # NCNN
@@ -782,53 +772,11 @@ class Exporter:
         # Export to TF
         tmp_file = f / "tmp_tflite_int8_calibration_images.npy"  # int8 calibration images file
         np_data = None
-        if self.args.int8:
-            verbosity = "info"
-            if self.args.data:
-                # Generate calibration data for integer quantization
-                LOGGER.info(f"{prefix} collecting INT8 calibration images from 'data={self.args.data}'")
-                data = check_det_dataset(self.args.data)
-                dataset = YOLODataset(data["val"], data=data, imgsz=self.imgsz[0], augment=False)
-                images = []
-                for i, batch in enumerate(dataset):
-                    if i >= 100:  # maximum number of calibration images
-                        break
-                    im = batch["img"].permute(1, 2, 0)[None]  # list to nparray, CHW to BHWC
-                    images.append(im)
-                f.mkdir()
-                images = torch.cat(images, 0).float()
-                # mean = images.view(-1, 3).mean(0)  # imagenet mean [123.675, 116.28, 103.53]
-                # std = images.view(-1, 3).std(0)  # imagenet std [58.395, 57.12, 57.375]
-                np.save(str(tmp_file), images.numpy())  # BHWC
-                np_data = [["images", tmp_file, [[[[0, 0, 0]]]], [[[[255, 255, 255]]]]]]
-        else:
-            verbosity = "error"
 
         LOGGER.info(f"{prefix} starting TFLite export with onnx2tf {onnx2tf.__version__}...")
-        onnx2tf.convert(
-            input_onnx_file_path=f_onnx,
-            output_folder_path=str(f),
-            not_use_onnxsim=True,
-            verbosity=verbosity,
-            output_integer_quantized_tflite=self.args.int8,
-            quant_type="per-tensor",  # "per-tensor" (faster) or "per-channel" (slower but more accurate)
-            custom_input_op_name_np_data_path=np_data,
-        )
-        yaml_save(f / "metadata.yaml", self.metadata)  # add metadata.yaml
+        command = 'onnx2tf -i {} -osd -o {} -n'.format(f_onnx,f)
+        os.system(command)
 
-        # Remove/rename TFLite models
-        if self.args.int8:
-            tmp_file.unlink(missing_ok=True)
-            for file in f.rglob("*_dynamic_range_quant.tflite"):
-                file.rename(file.with_name(file.stem.replace("_dynamic_range_quant", "_int8") + file.suffix))
-            for file in f.rglob("*_integer_quant_with_int16_act.tflite"):
-                file.unlink()  # delete extra fp16 activation TFLite files
-
-        # Add TFLite metadata
-        for file in f.rglob("*.tflite"):
-            f.unlink() if "quant_with_int16_act.tflite" in str(f) else self._add_tflite_metadata(file)
-
-        return str(f), tf.saved_model.load(f, tags=None, options=None)  # load saved_model as Keras model
 
     @try_export
     def export_pb(self, keras_model, prefix=colorstr("TensorFlow GraphDef:")):
