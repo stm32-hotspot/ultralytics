@@ -22,6 +22,12 @@ This repository provides a collection of pre-trained and quantized yolov8 models
 | [YOLOv8n](stedgeai_models/object_detection/)                | person_detection     | 416x416x3         | per channel int8               | uint8           | float                 |
 | [YOLOv8n](stedgeai_models/pose_estimation/)                 | pose_estimation      | 256x256x3         | per tensor int8                | uint8           | float                 |
 | [YOLOv8n](stedgeai_models/pose_estimation/)                 | pose_estimation      | 256x256x3         | per channel int8               | uint8           | float                 |
+| [YOLOv8n](stedgeai_models/pose_estimation/)                 | pose_estimation      | 320x320x3         | per channel int8               | uint8           | float                 |
+| [YOLOv8n](stedgeai_models/pose_estimation/)                 | pose_estimation      | 192x192x3         | per channel int8               | uint8           | float                 |
+| [YOLOv8n](stedgeai_models/segmentation/)                    | segmentation         | 256x256x3         | per channel int8               | int8            | int8                  |
+| [YOLOv8n](stedgeai_models/segmentation/)                    | segmentation         | 320x320x3         | per channel int8               | int8            | int8                  |
+
+
 
 
 ## Exporting quantization friendly YOLOv8 Pose Models
