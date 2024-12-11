@@ -32,7 +32,7 @@ This repository provides a collection of pre-trained and quantized yolov8 models
 
 ## Exporting quantization friendly YOLOv8 Pose Models
 
-This fork offers a quantization freindly Yolov8 pose model, you can export the pose model by following these steps:
+This fork offers a quantization friendly Yolov8 pose model, you can export the pose model by following these steps:
 
 - Install YOLOv8 by cloning this Ultralytics GitHub repository. After cloning, navigate into the directory and install the package in editable mode -e using pip.
 ```bash
@@ -59,6 +59,13 @@ model = YOLO("yolov8n-pose.pt")  # load an official model
 model.export(format='saved_model', simplify = True, imgsz = 256)
 ```
 
-- Please note that the exported pose model cannot be evaluated with Utralytics scripts as the model output is normalized.
-- Once you generated the quantization friendly Yolov8 pose model in saved model format, you can now quantize it following this [stm32ai-modelzoo tutorial](https://github.com/STMicroelectronics/stm32ai-modelzoo/tree/main/tutorials/scripts/yolov8_quantization)
-- Evaluation and inference scripts using Yolov8 pose models are available in [stm32ai-modelzoo](https://github.com/STMicroelectronics/stm32ai-modelzoo)
+- Please note that the exported pose model cannot be evaluated with Utralytics scripts as the model output is normalized and in float.
+- Once you generated the quantization friendly Yolov8 pose model in saved model format, you can now quantize it following this [stm32ai-modelzoo-services tutorial](https://github.com/STMicroelectronics/stm32ai-modelzoo-services/tree/main/tutorials/scripts/yolov8_quantization)
+- Evaluation and inference scripts using Yolov8 pose models are available in [stm32ai-modelzoo-services](https://github.com/STMicroelectronics/stm32ai-modelzoo-services)
+
+## Deployment and management on STM32 boards
+
+To efficiently deploy Yolov8 models on STM32 boards you can follow these tutorials:
+-	[Object Detection](https://github.com/STMicroelectronics/stm32ai-modelzoo-services/blob/main/object_detection/deployment/doc/tuto/How_to_deploy_yolov8_yolov5_object_detection.md)
+-	[Pose Estimation](https://github.com/STMicroelectronics/stm32ai-modelzoo-services/blob/main/pose_estimation/deployment/doc/tuto/How_to_deploy_yolov8_pose_estimation.md)
+-	[Instance Segmentation](https://github.com/STMicroelectronics/stm32ai-modelzoo-services/blob/main/instance_segmentation/deployment/doc/tuto/How_to_deploy_yolov8_instance_segmentation.md)
