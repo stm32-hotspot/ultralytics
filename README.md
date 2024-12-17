@@ -1,3 +1,15 @@
+
+## <div align="center">Why to use this fork? </div>
+<details open>
+In this STMicroelectronics fork of Ultralytics repository, you will find:
+
+-	A set of models compatible with STM32 platforms and stm32ai-modelzoo.
+-	A quantization friendly pose estimation model.
+
+More informations can be found here: [examples/YOLOv8-STEdgeAI](https://github.com/stm32-hotspot/ultralytics/tree/main/examples/YOLOv8-STEdgeAI)
+
+</details>
+
 <div align="center">
   <p>
     <a href="https://github.com/ultralytics/assets/releases/tag/v8.2.0" target="_blank">
