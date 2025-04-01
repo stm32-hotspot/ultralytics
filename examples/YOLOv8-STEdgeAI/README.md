@@ -6,6 +6,7 @@ This repository provides a collection of pre-trained and quantized yolov8 models
 
 - Offers a set of models compatible with STM32 platforms and stm32ai-modelzoo.
 - Offers a quantization friendly pose estimation model.
+- A step by step guide on how to use AiRunner to evaluate yolov8 models on STM32N6.
 
 ## Notice
 
@@ -69,3 +70,7 @@ To efficiently deploy Yolov8 models on STM32 boards you can follow these tutoria
 -	[Object Detection](https://github.com/STMicroelectronics/stm32ai-modelzoo-services/blob/main/object_detection/deployment/doc/tuto/How_to_deploy_yolov8_yolov5_object_detection.md)
 -	[Pose Estimation](https://github.com/STMicroelectronics/stm32ai-modelzoo-services/blob/main/pose_estimation/deployment/doc/tuto/How_to_deploy_yolov8_pose_estimation.md)
 -	[Instance Segmentation](https://github.com/STMicroelectronics/stm32ai-modelzoo-services/blob/main/instance_segmentation/deployment/doc/tuto/How_to_deploy_yolov8_instance_segmentation.md)
+
+## Validation on target with AiRunner and STM32N6
+You can run validation with yolov8 models directly on your STM32N6 board following this step by step guide:
+- [How to use AiRunner to evaluate yolov8 on STM32N6](tutorials/How_to_use_AiRunner_to_evaluate_yolov8_on_STM32N6.md)
