@@ -1,13 +1,12 @@
 
 ## <div align="center">Why to use this fork? </div>
 <details open>
+
 In this STMicroelectronics fork of Ultralytics repository, you will find:
+- A set of models compatible with STM32 platforms and stm32ai-modelzoo.
+-	A step by step guide on how to use AiRunner to evaluate yolov8 models on STM32N6
+More information can be found here: [examples/YOLOv8-STEdgeAI](https://github.com/stm32-hotspot/ultralytics/tree/main/examples/YOLOv8-STEdgeAI)
 
--	A set of models compatible with STM32 platforms and stm32ai-modelzoo.
--	A quantization friendly pose estimation model.
-- A step by step guide on how to use AiRunner to evaluate yolov8 models on STM32N6.
-
-More informations can be found here: [examples/YOLOv8-STEdgeAI](https://github.com/stm32-hotspot/ultralytics/tree/main/examples/YOLOv8-STEdgeAI)
 
 </details>
 
