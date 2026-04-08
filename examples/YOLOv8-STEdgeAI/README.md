@@ -45,8 +45,17 @@ This README explains how to train a YOLO26n model using the ST Ultralytics fork,
 git clone https://github.com/stm32-hotspot/ultralytics.git
 ```
 
-### 2) Create a Python 3.12 environment
+### 2) Navigate to repository
 
+```bash
+cd ultralytics
+```
+
+
+
+### 3) Install Ultralytics
+
+Create a Python 3.12 environment
 ```bash
 python -m venv yolo-env
 ```
@@ -56,11 +65,7 @@ Activate the environment:
 - On Windows: yolo-env\Scripts\activate
 - On Unix or MacOS: source yolo-env/bin/activate
 
-### 3) Install Ultralytics
-
-```bash
-cd ultralytics
-```
+then install the package in editable mode to be able to use the yolo command line tool from anywhere in the environment, and to reflect any changes made to the code without needing to reinstall.
 
 ```bash
 pip install -e .
