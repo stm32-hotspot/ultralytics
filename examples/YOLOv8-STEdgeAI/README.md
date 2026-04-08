@@ -163,14 +163,14 @@ cd object_detection
 ```bash
 cd ./datasets/dataset_create_tfs
 ```
-- update dataset_config.yaml with the coco dataset paths as follows:
+- update dataset_config.yaml with the coco dataset paths as follows and make sure to keep the paths consistent with the ones used in the previous steps in the ST Ultralytics fork, you can also adjust the max_detections and exclude_unlabeled_images settings as needed.
 
 ```yaml
 dataset:
   dataset_name: coco_80_val
-  training_path: ../../../../ultralytics/examples/ST-YOLO/datasets/coco/images/val
-  validation_path: ../../../../ultralytics/examples/ST-YOLO/datasets/coco/images/val
-  test_path: ../../../../ultralytics/examples/ST-YOLO/datasets/coco/images/val
+  training_path: ../../../../ultralytics/examples/YOLOv8-STEdgeAI/datasets/coco/images/val
+  validation_path: ../../../../ultralytics/examples/YOLOv8-STEdgeAI/datasets/coco/images/val
+  test_path: ../../../../ultralytics/examples/YOLOv8-STEdgeAI/datasets/coco/images/val
 
 settings:
   max_detections: 20
