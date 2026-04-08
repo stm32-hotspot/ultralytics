@@ -87,6 +87,15 @@ def convert_coco_to_yolo(coco_annotations_file : str=None,
                         classes)
     if not os.path.exists(export_folder):
         os.makedirs(export_folder)
+
+    export_folder_1 = os.path.join(coco_images_dir, 'labels')
+    if not os.path.exists(export_folder_1):
+        os.makedirs(export_folder_1)
+
+    export_folder_2 = os.path.join(export_folder_1, 'val')
+    if not os.path.exists(export_folder_2):
+        os.makedirs(export_folder_2)
+    
     with open(coco_annotations_file, 'r') as f:
         coco_data = json.load(f)
 
@@ -94,6 +103,7 @@ def convert_coco_to_yolo(coco_annotations_file : str=None,
         image_file_name = image_info['file_name']
         label_file_name = os.path.splitext(image_file_name)[0] + '.txt'
         label_file_path = os.path.join(export_folder, label_file_name)
+        label_file_path_2 = os.path.join(export_folder_2, label_file_name)
         for annotation in coco_data['annotations']:
             if annotation['image_id'] == image_info['id']:
                 try:
@@ -113,6 +123,9 @@ def convert_coco_to_yolo(coco_annotations_file : str=None,
                         label_file = open(label_file_path, 'a')
                         label_file.write(f"{class_id} {x_center:.6f} {y_center:.6f} {w:.6f} {h:.6f}\n")
                         label_file.close()
+                        label_file_2 = open(label_file_path_2, 'a')
+                        label_file_2.write(f"{class_id} {x_center:.6f} {y_center:.6f} {w:.6f} {h:.6f}\n")
+                        label_file_2.close()
                 except Exception as e:
                     exceptions = e
 
@@ -138,7 +151,7 @@ def main():
         os.makedirs(export_folder)
     convert_coco_to_yolo(
         coco_annotations_file,
-        coco_images_dir,
+        parent_folder,
         classes=classes,
         export_folder=export_folder
     )
