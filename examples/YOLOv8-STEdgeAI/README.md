@@ -75,7 +75,7 @@ pip install -e .
 ### 4) Go to YOLOv8-STEdgeAI example folder
 
 ```bash
-cd ultralytics/examples/YOLOv8-STEdgeAI
+cd examples/YOLOv8-STEdgeAI
 ```
 
 
