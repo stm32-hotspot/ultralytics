@@ -109,13 +109,15 @@ yolo train model=yolo26n.pt data=dataset.yaml epochs=3 imgsz=256
 ```
 
 ### 9) Export to ONNX
+Now we will export the trained model to ONNX format, which is compatible with STM32AI Model Zoo Services. Make sure to keep the opset version consistent with the one specified in the quantization configuration in the next steps.
 
+Update the model path in the command below if the model is saved in a different location.
 ```bash
 yolo export model=../../runs/detect/train/weights/best.pt format=onnx end2end=False imgsz=256 simplify=True opset=17
 ```
 
 ### 10) Evaluate exported ONNX model
-
+Update the model path in the command below if the model is saved in a different location. This step is important to verify that the exported ONNX model has good accuracy before proceeding with quantization and deployment. Make sure to keep the image size and dataset paths consistent with the previous steps.
 ```bash
 yolo val task=detect model=..\..\runs\detect\train\weights\best.onnx imgsz=256 data=dataset.yaml
 ```
