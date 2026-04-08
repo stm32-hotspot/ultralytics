@@ -1,15 +1,15 @@
 ---
-description: Discover OBBPredictor for YOLO, specializing in Oriented Bounding Box predictions. Essential for advanced object detection with Ultralytics YOLO.
-keywords: Ultralytics, OBBPredictor, YOLO, Oriented Bounding Box, object detection, advanced object detection, YOLO model, deep learning, AI, machine learning, computer vision, OBB detection
+description: Learn how to use the Ultralytics YOLO OBBPredictor for oriented bounding box predictions. Enhance your object detection models with ease.
+keywords: Ultralytics, YOLO, OBBPredictor, oriented bounding box, object detection, AI, machine learning, PyTorch
 ---
 
 # Reference for `ultralytics/models/yolo/obb/predict.py`
 
-!!! Note
+!!! success "Improvements"
 
-    This file is available at [https://github.com/ultralytics/ultralytics/blob/main/ultralytics/models/yolo/obb/predict.py](https://github.com/ultralytics/ultralytics/blob/main/ultralytics/models/yolo/obb/predict.py). If you spot a problem please help fix it by [contributing](https://docs.ultralytics.com/help/contributing/) a [Pull Request](https://github.com/ultralytics/ultralytics/edit/main/ultralytics/models/yolo/obb/predict.py) 🛠️. Thank you 🙏!
+    This page is sourced from [https://github.com/ultralytics/ultralytics/blob/main/ultralytics/models/yolo/obb/predict.py](https://github.com/ultralytics/ultralytics/blob/main/ultralytics/models/yolo/obb/predict.py). Have an improvement or example to add? Open a [Pull Request](https://docs.ultralytics.com/help/contributing/) — thank you! 🙏
 
-<br><br>
+<br>
 
 ## ::: ultralytics.models.yolo.obb.predict.OBBPredictor
 

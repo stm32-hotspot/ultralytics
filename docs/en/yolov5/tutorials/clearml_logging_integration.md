@@ -1,20 +1,20 @@
 ---
 comments: true
-description: Learn how ClearML can enhance your YOLOv5 pipeline – track your training runs, version your data, remotely monitor your models and optimize performance.
-keywords: ClearML, YOLOv5, Ultralytics, AI toolbox, training data, remote training, hyperparameter optimization, YOLOv5 model
+description: Learn how to use ClearML for tracking YOLOv5 experiments, data versioning, hyperparameter optimization, and remote execution with ease.
+keywords: ClearML, YOLOv5, machine learning, experiment tracking, data versioning, hyperparameter optimization, remote execution, ML pipeline
 ---
 
 # ClearML Integration
 
-<img align="center" src="https://github.com/thepycoder/clearml_screenshots/raw/main/logos_dark.png#gh-light-mode-only" alt="Clear|ML"><img align="center" src="https://github.com/thepycoder/clearml_screenshots/raw/main/logos_light.png#gh-dark-mode-only" alt="Clear|ML">
+<img align="center" src="https://github.com/thepycoder/clearml_screenshots/raw/main/logos_dark.png#gh-light-mode-only" alt="ClearML MLOps experiment tracking platform"><img align="center" src="https://github.com/thepycoder/clearml_screenshots/raw/main/logos_light.png#gh-dark-mode-only" alt="ClearML MLOps experiment tracking platform">
 
 ## About ClearML
 
-[ClearML](https://clear.ml/) is an [open-source](https://github.com/allegroai/clearml) toolbox designed to save you time ⏱️.
+[ClearML](https://clear.ml/) is an [open-source](https://github.com/clearml/clearml) MLOps platform designed to streamline your machine learning workflow and save you time ⏱️.
 
 🔨 Track every YOLOv5 training run in the <b>experiment manager</b>
 
-🔧 Version and easily access your custom training data with the integrated ClearML <b>Data Versioning Tool</b>
+🔧 Version and easily access your custom [training data](https://www.ultralytics.com/glossary/training-data) with the integrated ClearML <b>Data Versioning Tool</b>
 
 🔦 <b>Remotely train and monitor</b> your YOLOv5 training runs using ClearML Agent
 
@@ -27,16 +27,16 @@ And so much more. It's up to you how many of these tools you want to use, you ca
 <br>
 <br>
 
-![ClearML scalars dashboard](https://github.com/thepycoder/clearml_screenshots/raw/main/experiment_manager_with_compare.gif)
+![ClearML scalars dashboard showing YOLOv5 training metrics](https://cdn.jsdelivr.net/gh/ultralytics/assets@main/docs/clearml-scalars-dashboard.avif)
 
 <br>
 <br>
 
 ## 🦾 Setting Things Up
 
-To keep track of your experiments and/or data, ClearML needs to communicate to a server. You have 2 options to get one:
+To keep track of your experiments and/or data, ClearML needs to communicate with a server. You have 2 options to get one:
 
-Either sign up for free to the [ClearML Hosted Service](https://clear.ml/) or you can set up your own server, see [here](https://clear.ml/docs/latest/docs/deploying_clearml/clearml_server). Even the server is open-source, so even if you're dealing with sensitive data, you should be good to go!
+Either sign up for free to the [ClearML Hosted Service](https://clear.ml/) or you can set up your own [ClearML server](https://clear.ml/docs/latest/docs/deploying_clearml/clearml_server). Even the server is open-source, so even if you're dealing with sensitive data, you should be good to go!
 
 - Install the `clearml` python package:
 
@@ -56,13 +56,13 @@ That's it! You're done 😎
 
 ## 🚀 Training YOLOv5 With ClearML
 
-To enable ClearML experiment tracking, simply install the ClearML pip package.
+To enable ClearML experiment tracking, simply install the ClearML pip package as shown earlier (or run the command below if you skipped that step).
 
 ```bash
-pip install clearml>=1.2.0
+pip install clearml
 ```
 
-This will enable integration with the YOLOv5 training script. Every training run from now on, will be captured and stored by the ClearML experiment manager.
+This will enable integration with the YOLOv5 training script. Every training run from now on will be captured and stored by the ClearML [experiment manager](https://docs.ultralytics.com/integrations/clearml/).
 
 If you want to change the `project_name` or `task_name`, use the `--project` and `--name` arguments of the `train.py` script, by default the project will be called `YOLOv5` and the task `Training`. PLEASE NOTE: ClearML uses `/` as a delimiter for subprojects, so be careful when using `/` in your project name!
 
@@ -85,24 +85,24 @@ This will capture:
 - Console output
 - Scalars (mAP_0.5, mAP_0.5:0.95, precision, recall, losses, learning rates, ...)
 - General info such as machine details, runtime, creation date etc.
-- All produced plots such as label correlogram and confusion matrix
-- Images with bounding boxes per epoch
+- All produced plots such as label correlogram and [confusion matrix](https://www.ultralytics.com/glossary/confusion-matrix)
+- Images with bounding boxes per [epoch](https://www.ultralytics.com/glossary/epoch)
 - Mosaic per epoch
 - Validation images per epoch
 
 That's a lot right? 🤯 Now, we can visualize all of this information in the ClearML UI to get an overview of our training progress. Add custom columns to the table view (such as e.g. mAP_0.5) so you can easily sort on the best performing model. Or select multiple experiments and directly compare them!
 
-There even more we can do with all of this information, like hyperparameter optimization and remote execution, so keep reading if you want to see how that works!
+There's even more we can do with all of this information, like [hyperparameter optimization](https://www.ultralytics.com/glossary/hyperparameter-tuning) and remote execution, so keep reading if you want to see how that works!
 
 ### 🔗 Dataset Version Management
 
 Versioning your data separately from your code is generally a good idea and makes it easy to acquire the latest version too. This repository supports supplying a dataset version ID, and it will make sure to get the data if it's not there yet. Next to that, this workflow also saves the used dataset ID as part of the task parameters, so you will always know for sure which data was used in which experiment!
 
-![ClearML Dataset Interface](https://github.com/thepycoder/clearml_screenshots/raw/main/clearml_data.gif)
+![ClearML dataset version management interface](https://cdn.jsdelivr.net/gh/ultralytics/assets@main/docs/clearml-dataset-interface.avif)
 
 ### Prepare Your Dataset
 
-The YOLOv5 repository supports a number of different datasets by using YAML files containing their information. By default datasets are downloaded to the `../datasets` folder in relation to the repository root folder. So if you downloaded the `coco128` dataset using the link in the YAML or with the scripts provided by yolov5, you get this folder structure:
+The YOLOv5 repository supports a number of different datasets by using YAML files containing their information. By default, datasets are downloaded to the `../datasets` folder in relation to the repository root folder. So if you downloaded the `coco128` dataset using the link in the YAML or with the scripts provided by yolov5, you get this folder structure:
 
 ```
 ..
@@ -117,7 +117,7 @@ The YOLOv5 repository supports a number of different datasets by using YAML file
 
 But this can be any dataset you wish. Feel free to use your own, as long as you keep to this folder structure.
 
-Next, ⚠️**copy the corresponding YAML file to the root of the dataset folder**⚠️. This YAML files contains the information ClearML will need to properly use the dataset. You can make this yourself too, of course, just follow the structure of the example YAMLs.
+Next, ⚠️**copy the corresponding YAML file to the root of the dataset folder**⚠️. This YAML file contains the information ClearML will need to properly use the dataset. You can make this yourself too, of course, just follow the structure of the example YAMLs.
 
 Basically we need the following keys: `path`, `train`, `test`, `val`, `nc`, `names`.
 
@@ -135,10 +135,10 @@ Basically we need the following keys: `path`, `train`, `test`, `val`, `nc`, `nam
 
 ### Upload Your Dataset
 
-To get this dataset into ClearML as a versioned dataset, go to the dataset root folder and run the following command:
+To get this dataset into ClearML as a versioned dataset, go to the dataset root folder (for example `../datasets/coco128` when working from the YOLOv5 repository) and run the following command:
 
 ```bash
-cd coco128
+cd ../datasets/coco128
 clearml-data sync --project YOLOv5 --name coco128 --folder .
 ```
 
@@ -157,7 +157,7 @@ clearml-data close
 Now that you have a ClearML dataset, you can very simply use it to train custom YOLOv5 🚀 models!
 
 ```bash
-python train.py --img 640 --batch 16 --epochs 3 --data clearml://<your_dataset_id> --weights yolov5s.pt --cache
+python train.py --img 640 --batch 16 --epochs 3 --data clearml://YOUR_DATASET_ID --weights yolov5s.pt --cache
 ```
 
 <br>
@@ -170,7 +170,7 @@ Using the code information, installed packages and environment details, the expe
 
 To **run hyperparameter optimization locally**, we've included a pre-made script for you. Just make sure a training task has been run at least once, so it is in the ClearML experiment manager, we will essentially clone it and change its hyperparameters.
 
-You'll need to fill in the ID of this `template task` in the script found at `utils/loggers/clearml/hpo.py` and then just run it :) You can change `task.execute_locally()` to `task.execute()` to put it in a ClearML queue and have a remote agent work on it instead.
+You'll need to fill in the ID of this `template task` in the script found at `utils/loggers/clearml/hpo.py` and then just run it. You can change `task.execute_locally()` to `task.execute()` to put it in a ClearML queue and have a remote agent work on it instead.
 
 ```bash
 # To use optuna, install it first, otherwise you can change the optimizer to just be RandomSearch
@@ -178,21 +178,21 @@ pip install optuna
 python utils/loggers/clearml/hpo.py
 ```
 
-![HPO](https://github.com/thepycoder/clearml_screenshots/raw/main/hpo.png)
+![ClearML HPO dashboard with YOLOv5 metrics](https://cdn.jsdelivr.net/gh/ultralytics/assets@main/docs/hpo-clearml-experiment.avif)
 
 ## 🤯 Remote Execution (advanced)
 
-Running HPO locally is really handy, but what if we want to run our experiments on a remote machine instead? Maybe you have access to a very powerful GPU machine on-site, or you have some budget to use cloud GPUs. This is where the ClearML Agent comes into play. Check out what the agent can do here:
+Running HPO locally is really handy, but what if we want to run our experiments on a remote machine instead? Maybe you have access to a very powerful GPU machine on-site, or you have some budget to use cloud GPUs. This is where the [ClearML Agent](https://clear.ml/docs/latest/docs/clearml_agent) comes into play. Check out what the agent can do here:
 
 - [YouTube video](https://youtu.be/MX3BrXnaULs)
 - [Documentation](https://clear.ml/docs/latest/docs/clearml_agent)
 
 In short: every experiment tracked by the experiment manager contains enough information to reproduce it on a different machine (installed packages, uncommitted changes etc.). So a ClearML agent does just that: it listens to a queue for incoming tasks and when it finds one, it recreates the environment and runs it while still reporting scalars, plots etc. to the experiment manager.
 
-You can turn any machine (a cloud VM, a local GPU machine, your own laptop ... ) into a ClearML agent by simply running:
+You can turn any machine (a cloud VM, a local GPU machine, your own laptop...) into a ClearML agent by simply running:
 
 ```bash
-clearml-agent daemon --queue <queues_to_listen_to> [--docker]
+clearml-agent daemon --queue QUEUES_TO_LISTEN_TO [--docker]
 ```
 
 ### Cloning, Editing And Enqueuing
@@ -205,7 +205,7 @@ With our agent running, we can give it some work. Remember from the HPO section 
 
 ⏳ Enqueue the task to any of the queues by right-clicking it
 
-![Enqueue a task from the UI](https://github.com/thepycoder/clearml_screenshots/raw/main/enqueue.gif)
+![Enqueue a task from the UI](https://cdn.jsdelivr.net/gh/ultralytics/assets@main/docs/enqueue-task-ui.avif)
 
 ### Executing A Task Remotely
 
@@ -221,7 +221,7 @@ if RANK in {-1, 0}:
     loggers = Loggers(save_dir, weights, opt, hyp, LOGGER)  # loggers instance
     if loggers.clearml:
         loggers.clearml.task.execute_remotely(queue="my_queue")  # <------ ADD THIS LINE
-        # Data_dict is either None is user did not choose for ClearML dataset or is filled in by ClearML
+        # Data_dict is either None if user did not choose for ClearML dataset or is filled in by ClearML
         data_dict = loggers.clearml.data_dict
 # ...
 ```
@@ -230,8 +230,12 @@ When running the training script after this change, python will run the script u
 
 ### Autoscaling workers
 
-ClearML comes with autoscalers too! This tool will automatically spin up new remote machines in the cloud of your choice (AWS, GCP, Azure) and turn them into ClearML agents for you whenever there are experiments detected in the queue. Once the tasks are processed, the autoscaler will automatically shut down the remote machines, and you stop paying!
+ClearML comes with [autoscalers](https://clear.ml/docs/latest/docs/guides/services/aws_autoscaler) too! This tool will automatically spin up new remote machines in the cloud of your choice (AWS, GCP, Azure) and turn them into ClearML agents for you whenever there are experiments detected in the queue. Once the tasks are processed, the autoscaler will automatically shut down the remote machines, and you stop paying!
 
 Check out the autoscalers getting started video below.
 
-[![Watch the video](https://img.youtube.com/vi/j4XVMAaUt3E/0.jpg)](https://youtu.be/j4XVMAaUt3E)
+[![Watch the video](https://cdn.jsdelivr.net/gh/ultralytics/assets@main/docs/clearml-autoscalers-video-thumbnail.avif)](https://youtu.be/j4XVMAaUt3E)
+
+## Learn More
+
+For more information about integrating ClearML with Ultralytics models, check out our [ClearML integration guide](https://docs.ultralytics.com/integrations/clearml/) and explore how you can enhance your [MLOps workflow](https://www.ultralytics.com/blog/exploring-yolov8-ml-experiment-tracking-integrations) with other experiment tracking tools.

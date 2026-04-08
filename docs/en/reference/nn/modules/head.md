@@ -5,36 +5,68 @@ keywords: Ultralytics, YOLO, Detection, Pose, RTDETRDecoder, nn modules, guides
 
 # Reference for `ultralytics/nn/modules/head.py`
 
-!!! Note
+!!! success "Improvements"
 
-    This file is available at [https://github.com/ultralytics/ultralytics/blob/main/ultralytics/nn/modules/head.py](https://github.com/ultralytics/ultralytics/blob/main/ultralytics/nn/modules/head.py). If you spot a problem please help fix it by [contributing](https://docs.ultralytics.com/help/contributing/) a [Pull Request](https://github.com/ultralytics/ultralytics/edit/main/ultralytics/nn/modules/head.py) 🛠️. Thank you 🙏!
+    This page is sourced from [https://github.com/ultralytics/ultralytics/blob/main/ultralytics/nn/modules/head.py](https://github.com/ultralytics/ultralytics/blob/main/ultralytics/nn/modules/head.py). Have an improvement or example to add? Open a [Pull Request](https://docs.ultralytics.com/help/contributing/) — thank you! 🙏
 
-<br><br>
+<br>
 
 ## ::: ultralytics.nn.modules.head.Detect
 
-<br><br>
+<br><br><hr><br>
 
 ## ::: ultralytics.nn.modules.head.Segment
 
-<br><br>
+<br><br><hr><br>
+
+## ::: ultralytics.nn.modules.head.Segment26
+
+<br><br><hr><br>
 
 ## ::: ultralytics.nn.modules.head.OBB
 
-<br><br>
+<br><br><hr><br>
+
+## ::: ultralytics.nn.modules.head.OBB26
+
+<br><br><hr><br>
 
 ## ::: ultralytics.nn.modules.head.Pose
 
-<br><br>
+<br><br><hr><br>
+
+## ::: ultralytics.nn.modules.head.Pose26
+
+<br><br><hr><br>
 
 ## ::: ultralytics.nn.modules.head.Classify
 
-<br><br>
+<br><br><hr><br>
 
 ## ::: ultralytics.nn.modules.head.WorldDetect
 
-<br><br>
+<br><br><hr><br>
+
+## ::: ultralytics.nn.modules.head.LRPCHead
+
+<br><br><hr><br>
+
+## ::: ultralytics.nn.modules.head.YOLOEDetect
+
+<br><br><hr><br>
+
+## ::: ultralytics.nn.modules.head.YOLOESegment
+
+<br><br><hr><br>
+
+## ::: ultralytics.nn.modules.head.YOLOESegment26
+
+<br><br><hr><br>
 
 ## ::: ultralytics.nn.modules.head.RTDETRDecoder
+
+<br><br><hr><br>
+
+## ::: ultralytics.nn.modules.head.v10Detect
 
 <br><br>

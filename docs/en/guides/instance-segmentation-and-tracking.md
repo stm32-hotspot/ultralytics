@@ -1,20 +1,22 @@
 ---
 comments: true
-description: Instance Segmentation with Object Tracking using Ultralytics YOLOv8
-keywords: Ultralytics, YOLOv8, Instance Segmentation, Object Detection, Object Tracking, Bounding Box, Computer Vision, Notebook, IPython Kernel, CLI, Python SDK
+description: Master instance segmentation and tracking with Ultralytics YOLO26. Learn techniques for precise object identification and tracking.
+keywords: instance segmentation, tracking, YOLO26, Ultralytics, object detection, machine learning, computer vision, python
 ---
 
-# Instance Segmentation and Tracking using Ultralytics YOLOv8 🚀
+# Instance Segmentation and Tracking using Ultralytics YOLO26 🚀
 
 ## What is Instance Segmentation?
 
-[Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics/) instance segmentation involves identifying and outlining individual objects in an image, providing a detailed understanding of spatial distribution. Unlike semantic segmentation, it uniquely labels and precisely delineates each object, crucial for tasks like object detection and medical imaging.
+[Instance segmentation](https://www.ultralytics.com/glossary/instance-segmentation) is a computer vision task that involves identifying and outlining individual objects in an image at the pixel level. Unlike [semantic segmentation](https://www.ultralytics.com/glossary/semantic-segmentation) which only classifies pixels by category, instance segmentation uniquely labels and precisely delineates each object instance, making it crucial for applications requiring detailed spatial understanding like medical imaging, autonomous driving, and industrial automation.
+
+[Ultralytics YOLO26](https://github.com/ultralytics/ultralytics/) provides powerful instance segmentation capabilities that enable precise object boundary detection while maintaining the speed and efficiency YOLO models are known for.
 
 There are two types of instance segmentation tracking available in the Ultralytics package:
 
 - **Instance Segmentation with Class Objects:** Each class object is assigned a unique color for clear visual separation.
 
-- **Instance Segmentation with Object Tracks:** Every track is represented by a distinct color, facilitating easy identification and tracking.
+- **Instance Segmentation with Object Tracks:** Every track is represented by a distinct color, facilitating easy identification and tracking across video frames.
 
 <p align="center">
   <br>
@@ -24,117 +26,160 @@ There are two types of instance segmentation tracking available in the Ultralyti
     allowfullscreen>
   </iframe>
   <br>
-  <strong>Watch:</strong> Instance Segmentation with Object Tracking using Ultralytics YOLOv8
+  <strong>Watch:</strong> Instance Segmentation with Object Tracking using Ultralytics YOLO26
 </p>
 
 ## Samples
 
-|                                                          Instance Segmentation                                                          |                                                           Instance Segmentation + Object Tracking                                                            |
-|:---------------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| ![Ultralytics Instance Segmentation](https://github.com/RizwanMunawar/ultralytics/assets/62513924/d4ad3499-1f33-4871-8fbc-1be0b2643aa2) | ![Ultralytics Instance Segmentation with Object Tracking](https://github.com/RizwanMunawar/ultralytics/assets/62513924/2e5c38cc-fd5c-4145-9682-fa94ae2010a0) |
-|                                                  Ultralytics Instance Segmentation 😍                                                   |                                                  Ultralytics Instance Segmentation with Object Tracking 🔥                                                   |
+|                                                         Instance Segmentation                                                         |                                                                  Instance Segmentation + Object Tracking                                                                   |
+| :-----------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| ![Ultralytics Instance Segmentation](https://cdn.jsdelivr.net/gh/ultralytics/assets@main/docs/ultralytics-instance-segmentation.avif) | ![Ultralytics Instance Segmentation with Object Tracking](https://cdn.jsdelivr.net/gh/ultralytics/assets@main/docs/ultralytics-instance-segmentation-object-tracking.avif) |
+|                                                 Ultralytics Instance Segmentation 😍                                                  |                                                         Ultralytics Instance Segmentation with Object Tracking 🔥                                                          |
 
-!!! Example "Instance Segmentation and Tracking"
+!!! example "Instance segmentation using Ultralytics YOLO"
 
-    === "Instance Segmentation"
+    === "CLI"
+
+        ```bash
+        # Instance segmentation using Ultralytics YOLO26
+        yolo solutions isegment show=True
+
+        # Pass a source video
+        yolo solutions isegment source="path/to/video.mp4"
+
+        # Monitor the specific classes
+        yolo solutions isegment classes="[0, 5]"
+        ```
+
+    === "Python"
 
         ```python
         import cv2
-        from ultralytics import YOLO
-        from ultralytics.utils.plotting import Annotator, colors
 
-        model = YOLO("yolov8n-seg.pt")  # segmentation model
-        names = model.model.names
-        cap = cv2.VideoCapture("path/to/video/file.mp4")
+        from ultralytics import solutions
+
+        cap = cv2.VideoCapture("path/to/video.mp4")
+        assert cap.isOpened(), "Error reading video file"
+
+        # Video writer
         w, h, fps = (int(cap.get(x)) for x in (cv2.CAP_PROP_FRAME_WIDTH, cv2.CAP_PROP_FRAME_HEIGHT, cv2.CAP_PROP_FPS))
+        video_writer = cv2.VideoWriter("isegment_output.avi", cv2.VideoWriter_fourcc(*"mp4v"), fps, (w, h))
 
-        out = cv2.VideoWriter('instance-segmentation.avi', cv2.VideoWriter_fourcc(*'MJPG'), fps, (w, h))
+        # Initialize instance segmentation object
+        isegment = solutions.InstanceSegmentation(
+            show=True,  # display the output
+            model="yolo26n-seg.pt",  # model="yolo26n-seg.pt" for object segmentation using YOLO26.
+            # classes=[0, 2],  # segment specific classes, e.g., person and car with the pretrained model.
+        )
 
-        while True:
-            ret, im0 = cap.read()
-            if not ret:
+        # Process video
+        while cap.isOpened():
+            success, im0 = cap.read()
+
+            if not success:
                 print("Video frame is empty or video processing has been successfully completed.")
                 break
 
-            results = model.predict(im0)
-            annotator = Annotator(im0, line_width=2)
+            results = isegment(im0)
 
-            if results[0].masks is not None:
-                clss = results[0].boxes.cls.cpu().tolist()
-                masks = results[0].masks.xy
-                for mask, cls in zip(masks, clss):
-                    annotator.seg_bbox(mask=mask,
-                                       mask_color=colors(int(cls), True),
-                                       det_label=names[int(cls)])
+            # print(results)  # access the output
 
-            out.write(im0)
-            cv2.imshow("instance-segmentation", im0)
+            video_writer.write(results.plot_im)  # write the processed frame.
 
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
-
-        out.release()
         cap.release()
-        cv2.destroyAllWindows()
-
+        video_writer.release()
+        cv2.destroyAllWindows()  # destroy all opened windows
         ```
 
-    === "Instance Segmentation with Object Tracking"
+### `InstanceSegmentation` Arguments
 
-        ```python
-        import cv2
-        from ultralytics import YOLO
-        from ultralytics.utils.plotting import Annotator, colors
+Here's a table with the `InstanceSegmentation` arguments:
 
-        from collections import defaultdict
+{% from "macros/solutions-args.md" import param_table %}
+{{ param_table(["model", "region"]) }}
 
-        track_history = defaultdict(lambda: [])
+You can also take advantage of `track` arguments within the `InstanceSegmentation` solution:
 
-        model = YOLO("yolov8n-seg.pt")   # segmentation model
-        cap = cv2.VideoCapture("path/to/video/file.mp4")
-        w, h, fps = (int(cap.get(x)) for x in (cv2.CAP_PROP_FRAME_WIDTH, cv2.CAP_PROP_FRAME_HEIGHT, cv2.CAP_PROP_FPS))
+{% from "macros/track-args.md" import param_table %}
+{{ param_table(["tracker", "conf", "iou", "classes", "verbose", "device"]) }}
 
-        out = cv2.VideoWriter('instance-segmentation-object-tracking.avi', cv2.VideoWriter_fourcc(*'MJPG'), fps, (w, h))
+Moreover, the following visualization arguments are available:
 
-        while True:
-            ret, im0 = cap.read()
-            if not ret:
-                print("Video frame is empty or video processing has been successfully completed.")
-                break
+{% from "macros/visualization-args.md" import param_table %}
+{{ param_table(["show", "line_width", "show_conf", "show_labels"]) }}
 
-            annotator = Annotator(im0, line_width=2)
+## Applications of Instance Segmentation
 
-            results = model.track(im0, persist=True)
+Instance segmentation with YOLO26 has numerous real-world applications across various industries:
 
-            if results[0].boxes.id is not None and results[0].masks is not None:
-                masks = results[0].masks.xy
-                track_ids = results[0].boxes.id.int().cpu().tolist()
+### Waste Management and Recycling
 
-                for mask, track_id in zip(masks, track_ids):
-                    annotator.seg_bbox(mask=mask,
-                                       mask_color=colors(track_id, True),
-                                       track_label=str(track_id))
+YOLO26 can be used in [waste management facilities](https://www.ultralytics.com/blog/simplifying-e-waste-management-with-ai-innovations) to identify and sort different types of materials. The model can segment plastic waste, cardboard, metal, and other recyclables with high precision, enabling automated sorting systems to process waste more efficiently. This is particularly valuable considering that only about 10% of the 7 billion tonnes of plastic waste generated globally gets recycled.
 
-            out.write(im0)
-            cv2.imshow("instance-segmentation-object-tracking", im0)
+### Autonomous Vehicles
 
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
+In [self-driving cars](https://www.ultralytics.com/solutions/ai-in-automotive), instance segmentation helps identify and track pedestrians, vehicles, traffic signs, and other road elements at the pixel level. This precise understanding of the environment is crucial for navigation and safety decisions. YOLO26's real-time performance makes it ideal for these time-sensitive applications.
 
-        out.release()
-        cap.release()
-        cv2.destroyAllWindows()
-        ```
+### Medical Imaging
 
-### `seg_bbox` Arguments
+Instance segmentation can identify and outline tumors, organs, or cellular structures in medical scans. YOLO26's ability to precisely delineate object boundaries makes it valuable for [medical diagnostics](https://www.ultralytics.com/blog/ai-and-radiology-a-new-era-of-precision-and-efficiency) and treatment planning.
 
-| Name          | Type    | Default         | Description                            |
-|---------------|---------|-----------------|----------------------------------------|
-| `mask`        | `array` | `None`          | Segmentation mask coordinates          |
-| `mask_color`  | `tuple` | `(255, 0, 255)` | Mask color for every segmented box     |
-| `det_label`   | `str`   | `None`          | Label for segmented object             |
-| `track_label` | `str`   | `None`          | Label for segmented and tracked object |
+### Construction Site Monitoring
+
+At construction sites, instance segmentation can track heavy machinery, workers, and materials. This helps ensure safety by monitoring equipment positions and detecting when workers enter hazardous areas, while also optimizing workflow and resource allocation.
 
 ## Note
 
 For any inquiries, feel free to post your questions in the [Ultralytics Issue Section](https://github.com/ultralytics/ultralytics/issues/new/choose) or the discussion section mentioned below.
+
+## FAQ
+
+### How do I perform instance segmentation using Ultralytics YOLO26?
+
+To perform instance segmentation using Ultralytics YOLO26, initialize the YOLO model with a segmentation version of YOLO26 and process video frames through it. Here's a simplified code example:
+
+```python
+import cv2
+
+from ultralytics import solutions
+
+cap = cv2.VideoCapture("path/to/video.mp4")
+assert cap.isOpened(), "Error reading video file"
+
+# Video writer
+w, h, fps = (int(cap.get(x)) for x in (cv2.CAP_PROP_FRAME_WIDTH, cv2.CAP_PROP_FRAME_HEIGHT, cv2.CAP_PROP_FPS))
+video_writer = cv2.VideoWriter("instance-segmentation.avi", cv2.VideoWriter_fourcc(*"mp4v"), fps, (w, h))
+
+# Init InstanceSegmentation
+isegment = solutions.InstanceSegmentation(
+    show=True,  # display the output
+    model="yolo26n-seg.pt",  # model="yolo26n-seg.pt" for object segmentation using YOLO26.
+)
+
+# Process video
+while cap.isOpened():
+    success, im0 = cap.read()
+    if not success:
+        print("Video frame is empty or processing is complete.")
+        break
+    results = isegment(im0)
+    video_writer.write(results.plot_im)
+
+cap.release()
+video_writer.release()
+cv2.destroyAllWindows()
+```
+
+Learn more about instance segmentation in the [Ultralytics YOLO26 guide](https://docs.ultralytics.com/tasks/segment/).
+
+### What is the difference between instance segmentation and object tracking in Ultralytics YOLO26?
+
+Instance segmentation identifies and outlines individual objects within an image, giving each object a unique label and mask. Object tracking extends this by assigning consistent IDs to objects across video frames, facilitating continuous tracking of the same objects over time. When combined, as in YOLO26's implementation, you get powerful capabilities for analyzing object movement and behavior in videos while maintaining precise boundary information.
+
+### Why should I use Ultralytics YOLO26 for instance segmentation and tracking over other models like Mask R-CNN or Faster R-CNN?
+
+Ultralytics YOLO26 offers real-time performance, superior [accuracy](https://www.ultralytics.com/glossary/accuracy), and ease of use compared to other models like Mask R-CNN or Faster R-CNN. YOLO26 processes images in a single pass (one-stage detection), making it significantly faster while maintaining high precision. It also provides seamless integration with [Ultralytics Platform](https://platform.ultralytics.com), allowing users to manage models, datasets, and training pipelines efficiently. For applications requiring both speed and accuracy, YOLO26 provides an optimal balance.
+
+### Are there any datasets provided by Ultralytics suitable for training YOLO26 models for instance segmentation and tracking?
+
+Yes, Ultralytics offers several datasets suitable for training YOLO26 models for instance segmentation, including [COCO-Seg](https://docs.ultralytics.com/datasets/segment/coco/), [COCO8-Seg](https://docs.ultralytics.com/datasets/segment/coco8-seg/) (a smaller subset for quick testing), [Package-Seg](https://docs.ultralytics.com/datasets/segment/package-seg/), and [Crack-Seg](https://docs.ultralytics.com/datasets/segment/crack-seg/). These datasets come with pixel-level annotations needed for instance segmentation tasks. For more specialized applications, you can also create custom datasets following the Ultralytics format. Complete dataset information and usage instructions can be found in the [Ultralytics Datasets documentation](https://docs.ultralytics.com/datasets/).

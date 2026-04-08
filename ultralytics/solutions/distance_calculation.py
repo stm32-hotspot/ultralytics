@@ -1,181 +1,123 @@
-# Ultralytics YOLO 🚀, AGPL-3.0 license
+# Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
 
 import math
+from typing import Any
 
 import cv2
 
-from ultralytics.utils.checks import check_imshow
-from ultralytics.utils.plotting import Annotator, colors
+from ultralytics.solutions.solutions import BaseSolution, SolutionAnnotator, SolutionResults
+from ultralytics.utils.plotting import colors
 
 
-class DistanceCalculation:
-    """A class to calculate distance between two objects in real-time video stream based on their tracks."""
+class DistanceCalculation(BaseSolution):
+    """A class to calculate distance between two objects in a real-time video stream based on their tracks.
 
-    def __init__(self):
-        """Initializes the distance calculation class with default values for Visual, Image, track and distance
-        parameters.
-        """
+    This class extends BaseSolution to provide functionality for selecting objects and calculating the distance between
+    them in a video stream using YOLO object detection and tracking.
 
-        # Visual & im0 information
-        self.im0 = None
-        self.annotator = None
-        self.view_img = False
-        self.line_color = (255, 255, 0)
-        self.centroid_color = (255, 0, 255)
+    Attributes:
+        left_mouse_count (int): Counter for left mouse button clicks.
+        selected_boxes (dict[int, Any]): Dictionary to store selected bounding boxes keyed by track ID.
+        centroids (list[list[int]]): List to store centroids of selected bounding boxes.
 
-        # Predict/track information
-        self.clss = None
-        self.names = None
-        self.boxes = None
-        self.line_thickness = 2
-        self.trk_ids = None
+    Methods:
+        mouse_event_for_distance: Handle mouse events for selecting objects in the video stream.
+        process: Process video frames and calculate the distance between selected objects.
 
-        # Distance calculation information
-        self.centroids = []
-        self.pixel_per_meter = 10
+    Examples:
+        >>> distance_calc = DistanceCalculation()
+        >>> frame = cv2.imread("frame.jpg")
+        >>> results = distance_calc.process(frame)
+        >>> cv2.imshow("Distance Calculation", results.plot_im)
+        >>> cv2.waitKey(0)
+    """
 
-        # Mouse event
+    def __init__(self, **kwargs: Any) -> None:
+        """Initialize the DistanceCalculation class for measuring object distances in video streams."""
+        super().__init__(**kwargs)
+
+        # Mouse event information
         self.left_mouse_count = 0
-        self.selected_boxes = {}
+        self.selected_boxes: dict[int, list[float]] = {}
+        self.centroids: list[list[int]] = []  # Store centroids of selected objects
 
-        # Check if environment support imshow
-        self.env_check = check_imshow(warn=True)
-
-    def set_args(
-        self,
-        names,
-        pixels_per_meter=10,
-        view_img=False,
-        line_thickness=2,
-        line_color=(255, 255, 0),
-        centroid_color=(255, 0, 255),
-    ):
-        """
-        Configures the distance calculation and display parameters.
+    def mouse_event_for_distance(self, event: int, x: int, y: int, flags: int, param: Any) -> None:
+        """Handle mouse events to select regions in a real-time video stream for distance calculation.
 
         Args:
-            names (dict): object detection classes names
-            pixels_per_meter (int): Number of pixels in meter
-            view_img (bool): Flag indicating frame display
-            line_thickness (int): Line thickness for bounding boxes.
-            line_color (RGB): color of centroids line
-            centroid_color (RGB): colors of bbox centroids
-        """
-        self.names = names
-        self.pixel_per_meter = pixels_per_meter
-        self.view_img = view_img
-        self.line_thickness = line_thickness
-        self.line_color = line_color
-        self.centroid_color = centroid_color
+            event (int): Type of mouse event (e.g., cv2.EVENT_MOUSEMOVE, cv2.EVENT_LBUTTONDOWN).
+            x (int): X-coordinate of the mouse pointer.
+            y (int): Y-coordinate of the mouse pointer.
+            flags (int): Flags associated with the event (e.g., cv2.EVENT_FLAG_CTRLKEY, cv2.EVENT_FLAG_SHIFTKEY).
+            param (Any): Additional parameters passed to the function.
 
-    def mouse_event_for_distance(self, event, x, y, flags, param):
+        Examples:
+            >>> # Assuming 'dc' is an instance of DistanceCalculation
+            >>> cv2.setMouseCallback("window_name", dc.mouse_event_for_distance)
         """
-        This function is designed to move region with mouse events in a real-time video stream.
-
-        Args:
-            event (int): The type of mouse event (e.g., cv2.EVENT_MOUSEMOVE, cv2.EVENT_LBUTTONDOWN, etc.).
-            x (int): The x-coordinate of the mouse pointer.
-            y (int): The y-coordinate of the mouse pointer.
-            flags (int): Any flags associated with the event (e.g., cv2.EVENT_FLAG_CTRLKEY,
-                cv2.EVENT_FLAG_SHIFTKEY, etc.).
-            param (dict): Additional parameters you may want to pass to the function.
-        """
-        global selected_boxes
-        global left_mouse_count
         if event == cv2.EVENT_LBUTTONDOWN:
             self.left_mouse_count += 1
             if self.left_mouse_count <= 2:
-                for box, track_id in zip(self.boxes, self.trk_ids):
+                for box, track_id in zip(self.boxes, self.track_ids):
                     if box[0] < x < box[2] and box[1] < y < box[3] and track_id not in self.selected_boxes:
-                        self.selected_boxes[track_id] = []
                         self.selected_boxes[track_id] = box
 
-        if event == cv2.EVENT_RBUTTONDOWN:
+        elif event == cv2.EVENT_RBUTTONDOWN:
             self.selected_boxes = {}
             self.left_mouse_count = 0
 
-    def extract_tracks(self, tracks):
-        """
-        Extracts results from the provided data.
+    def process(self, im0) -> SolutionResults:
+        """Process a video frame and calculate the distance between two selected bounding boxes.
+
+        This method extracts tracks from the input frame, annotates bounding boxes, and calculates the distance between
+        two user-selected objects if they have been chosen.
 
         Args:
-            tracks (list): List of tracks obtained from the object tracking process.
+            im0 (np.ndarray): The input image frame to process.
+
+        Returns:
+            (SolutionResults): Contains processed image `plot_im`, `total_tracks` (int) representing the total number of
+                tracked objects, and `pixels_distance` (float) representing the distance between selected objects
+                in pixels.
+
+        Examples:
+            >>> import numpy as np
+            >>> from ultralytics.solutions import DistanceCalculation
+            >>> dc = DistanceCalculation()
+            >>> frame = np.random.randint(0, 255, (480, 640, 3), dtype=np.uint8)
+            >>> results = dc.process(frame)
+            >>> print(f"Distance: {results.pixels_distance:.2f} pixels")
         """
-        self.boxes = tracks[0].boxes.xyxy.cpu()
-        self.clss = tracks[0].boxes.cls.cpu().tolist()
-        self.trk_ids = tracks[0].boxes.id.int().cpu().tolist()
+        self.extract_tracks(im0)  # Extract tracks
+        annotator = SolutionAnnotator(im0, line_width=self.line_width)  # Initialize annotator
 
-    def calculate_centroid(self, box):
-        """
-        Calculate the centroid of bounding box.
+        pixels_distance = 0
+        # Iterate over bounding boxes, track ids and classes index
+        for box, track_id, cls, conf in zip(self.boxes, self.track_ids, self.clss, self.confs):
+            annotator.box_label(box, color=colors(int(cls), True), label=self.adjust_box_label(cls, conf, track_id))
 
-        Args:
-            box (list): Bounding box data
-        """
-        return int((box[0] + box[2]) // 2), int((box[1] + box[3]) // 2)
-
-    def calculate_distance(self, centroid1, centroid2):
-        """
-        Calculate distance between two centroids.
-
-        Args:
-            centroid1 (point): First bounding box data
-            centroid2 (point): Second bounding box data
-        """
-        pixel_distance = math.sqrt((centroid1[0] - centroid2[0]) ** 2 + (centroid1[1] - centroid2[1]) ** 2)
-        return pixel_distance / self.pixel_per_meter, (pixel_distance / self.pixel_per_meter) * 1000
-
-    def start_process(self, im0, tracks):
-        """
-        Calculate distance between two bounding boxes based on tracking data.
-
-        Args:
-            im0 (nd array): Image
-            tracks (list): List of tracks obtained from the object tracking process.
-        """
-        self.im0 = im0
-        if tracks[0].boxes.id is None:
-            if self.view_img:
-                self.display_frames()
-            return
-        self.extract_tracks(tracks)
-
-        self.annotator = Annotator(self.im0, line_width=2)
-
-        for box, cls, track_id in zip(self.boxes, self.clss, self.trk_ids):
-            self.annotator.box_label(box, color=colors(int(cls), True), label=self.names[int(cls)])
-
+            # Update selected boxes if they're being tracked
             if len(self.selected_boxes) == 2:
-                for trk_id, _ in self.selected_boxes.items():
+                for trk_id in self.selected_boxes.keys():
                     if trk_id == track_id:
                         self.selected_boxes[track_id] = box
 
         if len(self.selected_boxes) == 2:
-            for trk_id, box in self.selected_boxes.items():
-                centroid = self.calculate_centroid(self.selected_boxes[trk_id])
-                self.centroids.append(centroid)
-
-            distance_m, distance_mm = self.calculate_distance(self.centroids[0], self.centroids[1])
-            self.annotator.plot_distance_and_line(
-                distance_m, distance_mm, self.centroids, self.line_color, self.centroid_color
+            # Calculate centroids of selected boxes
+            self.centroids.extend(
+                [[int((box[0] + box[2]) // 2), int((box[1] + box[3]) // 2)] for box in self.selected_boxes.values()]
             )
+            # Calculate Euclidean distance between centroids
+            pixels_distance = math.sqrt(
+                (self.centroids[0][0] - self.centroids[1][0]) ** 2 + (self.centroids[0][1] - self.centroids[1][1]) ** 2
+            )
+            annotator.plot_distance_and_line(pixels_distance, self.centroids)
 
-        self.centroids = []
+        self.centroids = []  # Reset centroids for next frame
+        plot_im = annotator.result()
+        self.display_output(plot_im)  # Display output with base class function
+        if self.CFG.get("show") and self.env_check:
+            cv2.setMouseCallback("Ultralytics Solutions", self.mouse_event_for_distance)
 
-        if self.view_img and self.env_check:
-            self.display_frames()
-
-        return im0
-
-    def display_frames(self):
-        """Display frame."""
-        cv2.namedWindow("Ultralytics Distance Estimation")
-        cv2.setMouseCallback("Ultralytics Distance Estimation", self.mouse_event_for_distance)
-        cv2.imshow("Ultralytics Distance Estimation", self.im0)
-
-        if cv2.waitKey(1) & 0xFF == ord("q"):
-            return
-
-
-if __name__ == "__main__":
-    DistanceCalculation()
+        # Return SolutionResults with processed image and calculated metrics
+        return SolutionResults(plot_im=plot_im, pixels_distance=pixels_distance, total_tracks=len(self.track_ids))

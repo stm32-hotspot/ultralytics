@@ -1,14 +1,14 @@
 ---
 comments: true
-description: In-depth exploration of Ultralytics' YOLO. Learn about the YOLO object detection model, how to train it on custom data, multi-GPU training, exporting, predicting, deploying, and more.
-keywords: Ultralytics, YOLO, Deep Learning, Object detection, PyTorch, Tutorial, Multi-GPU training, Custom data training, SAHI, Tiled Inference
+description: Master YOLO with Ultralytics tutorials covering training, deployment and optimization. Find solutions, improve metrics, and deploy with ease.
+keywords: Ultralytics, YOLO, tutorials, guides, object detection, deep learning, PyTorch, training, deployment, optimization, computer vision
 ---
 
-# Comprehensive Tutorials to Ultralytics YOLO
+# Comprehensive Tutorials for Ultralytics YOLO
 
-Welcome to the Ultralytics' YOLO 🚀 Guides! Our comprehensive tutorials cover various aspects of the YOLO object detection model, ranging from training and prediction to deployment. Built on PyTorch, YOLO stands out for its exceptional speed and accuracy in real-time object detection tasks.
+Welcome to Ultralytics' YOLO Guides. Our comprehensive tutorials cover various aspects of the YOLO [object detection](https://www.ultralytics.com/glossary/object-detection) model, ranging from training and prediction to deployment. Built on [PyTorch](https://www.ultralytics.com/glossary/pytorch), YOLO stands out for its exceptional speed and [accuracy](https://www.ultralytics.com/glossary/accuracy) in real-time object detection tasks.
 
-Whether you're a beginner or an expert in deep learning, our tutorials offer valuable insights into the implementation and optimization of YOLO for your computer vision projects. Let's dive in!
+Whether you're a beginner or an expert in [deep learning](https://www.ultralytics.com/glossary/deep-learning-dl), our tutorials offer valuable insights into the implementation and optimization of YOLO for your [computer vision](https://www.ultralytics.com/glossary/computer-vision-cv) projects.
 
 <p align="center">
   <br>
@@ -18,50 +18,94 @@ Whether you're a beginner or an expert in deep learning, our tutorials offer val
     allowfullscreen>
   </iframe>
   <br>
-  <strong>Watch:</strong> Ultralytics YOLOv8 Guides Overview
+  <strong>Watch:</strong> Ultralytics YOLO26 Guides Overview
 </p>
 
 ## Guides
 
 Here's a compilation of in-depth guides to help you master different aspects of Ultralytics YOLO.
 
-- [YOLO Common Issues](yolo-common-issues.md) ⭐ RECOMMENDED: Practical solutions and troubleshooting tips to the most frequently encountered issues when working with Ultralytics YOLO models.
-- [YOLO Performance Metrics](yolo-performance-metrics.md) ⭐ ESSENTIAL: Understand the key metrics like mAP, IoU, and F1 score used to evaluate the performance of your YOLO models. Includes practical examples and tips on how to improve detection accuracy and speed.
-- [Model Deployment Options](model-deployment-options.md): Overview of YOLO model deployment formats like ONNX, OpenVINO, and TensorRT, with pros and cons for each to inform your deployment strategy.
-- [K-Fold Cross Validation](kfold-cross-validation.md) 🚀 NEW: Learn how to improve model generalization using K-Fold cross-validation technique.
-- [Hyperparameter Tuning](hyperparameter-tuning.md) 🚀 NEW: Discover how to optimize your YOLO models by fine-tuning hyperparameters using the Tuner class and genetic evolution algorithms.
-- [SAHI Tiled Inference](sahi-tiled-inference.md) 🚀 NEW: Comprehensive guide on leveraging SAHI's sliced inference capabilities with YOLOv8 for object detection in high-resolution images.
-- [AzureML Quickstart](azureml-quickstart.md) 🚀 NEW: Get up and running with Ultralytics YOLO models on Microsoft's Azure Machine Learning platform. Learn how to train, deploy, and scale your object detection projects in the cloud.
-- [Conda Quickstart](conda-quickstart.md) 🚀 NEW: Step-by-step guide to setting up a [Conda](https://anaconda.org/conda-forge/ultralytics) environment for Ultralytics. Learn how to install and start using the Ultralytics package efficiently with Conda.
-- [Docker Quickstart](docker-quickstart.md) 🚀 NEW: Complete guide to setting up and using Ultralytics YOLO models with [Docker](https://hub.docker.com/r/ultralytics/ultralytics). Learn how to install Docker, manage GPU support, and run YOLO models in isolated containers for consistent development and deployment.
-- [Raspberry Pi](raspberry-pi.md) 🚀 NEW: Quickstart tutorial to run YOLO models to the latest Raspberry Pi hardware.
-- [Nvidia-Jetson](nvidia-jetson.md)🚀 NEW: Quickstart guide for deploying YOLO models on Nvidia Jetson devices.
-- [Triton Inference Server Integration](triton-inference-server.md) 🚀 NEW: Dive into the integration of Ultralytics YOLOv8 with NVIDIA's Triton Inference Server for scalable and efficient deep learning inference deployments.
-- [YOLO Thread-Safe Inference](yolo-thread-safe-inference.md) 🚀 NEW: Guidelines for performing inference with YOLO models in a thread-safe manner. Learn the importance of thread safety and best practices to prevent race conditions and ensure consistent predictions.
-- [Isolating Segmentation Objects](isolating-segmentation-objects.md) 🚀 NEW: Step-by-step recipe and explanation on how to extract and/or isolate objects from images using Ultralytics Segmentation.
-- [Edge TPU on Raspberry Pi](coral-edge-tpu-on-raspberry-pi.md): [Google Edge TPU](https://coral.ai/products/accelerator) accelerates YOLO inference on [Raspberry Pi](https://www.raspberrypi.com/).
+- [A Guide on Model Testing](model-testing.md): A thorough guide on testing your computer vision models in realistic settings. Learn how to verify accuracy, reliability, and performance in line with project goals.
+- [AzureML Quickstart](azureml-quickstart.md): Get up and running with Ultralytics YOLO models on Microsoft's Azure [Machine Learning](https://www.ultralytics.com/glossary/machine-learning-ml) platform. Learn how to train, deploy, and scale your object detection projects in the cloud.
+- [Best Practices for Model Deployment](model-deployment-practices.md): Walk through tips and best practices for efficiently deploying models in computer vision projects, with a focus on optimization, troubleshooting, and security.
+- [COCO to YOLO Conversion](coco-to-yolo.md): Complete guide to converting COCO JSON annotations to YOLO format for training. Covers detection, segmentation, and keypoints with tool-specific tips for CVAT, Label Studio, and Roboflow.
+- [COCO JSON Training](coco-json-training.md): Train YOLO directly on COCO JSON annotations without converting to YOLO format, using a custom dataset class and trainer.
+- [Conda Quickstart](conda-quickstart.md): Step-by-step guide to setting up a [Conda](https://anaconda.org/conda-forge/ultralytics) environment for Ultralytics. Learn how to install and start using the Ultralytics package efficiently with Conda.
+- [Customizing Trainer](custom-trainer.md): Learn how to subclass the YOLO trainer to log custom metrics, add class-weighted loss, customize model saving, freeze/unfreeze the backbone, and set per-layer learning rates.
+- [Data Collection and Annotation](data-collection-and-annotation.md): Explore the tools, techniques, and best practices for collecting and annotating data to create high-quality inputs for your computer vision models.
+- [DeepStream on NVIDIA Jetson](deepstream-nvidia-jetson.md): Quickstart guide for deploying YOLO models on NVIDIA Jetson devices using DeepStream and TensorRT.
+- [Defining A Computer Vision Project's Goals](defining-project-goals.md): Walk through how to effectively define clear and measurable goals for your computer vision project. Learn the importance of a well-defined problem statement and how it creates a roadmap for your project.
+- [Docker Quickstart](docker-quickstart.md): Complete guide to setting up and using Ultralytics YOLO models with [Docker](https://hub.docker.com/r/ultralytics/ultralytics). Learn how to install Docker, manage GPU support, and run YOLO models in isolated containers for consistent development and deployment.
+- [Edge TPU on Raspberry Pi](coral-edge-tpu-on-raspberry-pi.md): [Google Edge TPU](https://developers.google.com/coral) accelerates YOLO inference on [Raspberry Pi](https://www.raspberrypi.com/).
+- [End-to-End Detection](end2end-detection.md): Understand YOLO26's NMS-free end-to-end detection, export compatibility, output format changes, and how to migrate from older YOLO models.
+- [Hyperparameter Tuning](hyperparameter-tuning.md): Discover how to optimize your YOLO models by fine-tuning hyperparameters using the Tuner class and genetic evolution algorithms.
+- [Insights on Model Evaluation and Fine-Tuning](model-evaluation-insights.md): Gain insights into the strategies and best practices for evaluating and fine-tuning your computer vision models. Learn about the iterative process of refining models to achieve optimal results.
+- [Isolating Segmentation Objects](isolating-segmentation-objects.md): Step-by-step recipe and explanation on how to extract and/or isolate objects from images using Ultralytics Segmentation.
+- [K-Fold Cross Validation](kfold-cross-validation.md): Learn how to improve model generalization using K-Fold cross-validation technique.
+- [Maintaining Your Computer Vision Model](model-monitoring-and-maintenance.md): Understand the key practices for monitoring, maintaining, and documenting computer vision models to guarantee accuracy, spot anomalies, and mitigate data drift.
+- [Model Deployment Options](model-deployment-options.md): Overview of YOLO [model deployment](https://www.ultralytics.com/glossary/model-deployment) formats like ONNX, OpenVINO, and TensorRT, with pros and cons for each to inform your deployment strategy.
+- [Model YAML Configuration Guide](model-yaml-config.md): A comprehensive deep dive into Ultralytics' model architecture definitions. Explore the YAML format, understand the module resolution system, and learn how to integrate custom modules seamlessly.
+- [NVIDIA DGX Spark](nvidia-dgx-spark.md): Quickstart guide for deploying YOLO models on NVIDIA DGX Spark devices.
+- [NVIDIA Jetson](nvidia-jetson.md): Quickstart guide for deploying YOLO models on NVIDIA Jetson devices.
+- [OpenVINO Latency vs Throughput Modes](optimizing-openvino-latency-vs-throughput-modes.md): Learn latency and throughput optimization techniques for peak YOLO inference performance.
+- [Preprocessing Annotated Data](preprocessing_annotated_data.md): Learn about preprocessing and augmenting image data in computer vision projects using YOLO26, including normalization, dataset augmentation, splitting, and exploratory data analysis (EDA).
+- [Raspberry Pi](raspberry-pi.md): Quickstart tutorial to run YOLO models on the latest Raspberry Pi hardware.
+- [ROS Quickstart](ros-quickstart.md): Learn how to integrate YOLO with the Robot Operating System (ROS) for real-time object detection in robotics applications, including Point Cloud and Depth images.
+- [SAHI Tiled Inference](sahi-tiled-inference.md): Comprehensive guide on leveraging SAHI's sliced inference capabilities with YOLO26 for object detection in high-resolution images.
+- [Steps of a Computer Vision Project](steps-of-a-cv-project.md): Learn about the key steps involved in a computer vision project, including defining goals, selecting models, preparing data, and evaluating results.
+- [Tips for Model Training](model-training-tips.md): Explore tips on optimizing [batch sizes](https://www.ultralytics.com/glossary/batch-size), using [mixed precision](https://www.ultralytics.com/glossary/mixed-precision), applying pretrained weights, and more to make training your computer vision model a breeze.
+- [Triton Inference Server Integration](triton-inference-server.md): Dive into the integration of Ultralytics YOLO26 with NVIDIA's Triton Inference Server for scalable and efficient deep learning inference deployments.
+- [Vertex AI Deployment with Docker](vertex-ai-deployment-with-docker.md): Streamlined guide to containerizing YOLO models with Docker and deploying them on Google Cloud Vertex AI—covering build, push, autoscaling, and monitoring.
 - [View Inference Images in a Terminal](view-results-in-terminal.md): Use VSCode's integrated terminal to view inference results when using Remote Tunnel or SSH sessions.
-- [OpenVINO Latency vs Throughput Modes](optimizing-openvino-latency-vs-throughput-modes.md) - Learn latency and throughput optimization techniques for peak YOLO inference performance.
-
-## Real-World Projects
-
-- [Object Counting](object-counting.md) 🚀 NEW: Explore the process of real-time object counting with Ultralytics YOLOv8 and acquire the knowledge to effectively count objects in a live video stream.
-- [Object Cropping](object-cropping.md) 🚀 NEW: Explore object cropping using YOLOv8 for precise extraction of objects from images and videos.
-- [Object Blurring](object-blurring.md) 🚀 NEW: Apply object blurring with YOLOv8 for privacy protection in image and video processing.
-- [Workouts Monitoring](workouts-monitoring.md) 🚀 NEW: Discover the comprehensive approach to monitoring workouts with Ultralytics YOLOv8. Acquire the skills and insights necessary to effectively use YOLOv8 for tracking and analyzing various aspects of fitness routines in real time.
-- [Objects Counting in Regions](region-counting.md) 🚀 NEW: Explore counting objects in specific regions with Ultralytics YOLOv8 for precise and efficient object detection in varied areas.
-- [Security Alarm System](security-alarm-system.md) 🚀 NEW: Discover the process of creating a security alarm system with Ultralytics YOLOv8. This system triggers alerts upon detecting new objects in the frame. Subsequently, you can customize the code to align with your specific use case.
-- [Heatmaps](heatmaps.md) 🚀 NEW: Elevate your understanding of data with our Detection Heatmaps! These intuitive visual tools use vibrant color gradients to vividly illustrate the intensity of data values across a matrix. Essential in computer vision, heatmaps are skillfully designed to highlight areas of interest, providing an immediate, impactful way to interpret spatial information.
-- [Instance Segmentation with Object Tracking](instance-segmentation-and-tracking.md) 🚀 NEW: Explore our feature on [Object Segmentation](https://docs.ultralytics.com/tasks/segment/) in Bounding Boxes Shape, providing a visual representation of precise object boundaries for enhanced understanding and analysis.
-- [VisionEye View Objects Mapping](vision-eye.md) 🚀 NEW: This feature aim computers to discern and focus on specific objects, much like the way the human eye observes details from a particular viewpoint.
-- [Speed Estimation](speed-estimation.md) 🚀 NEW: Speed estimation in computer vision relies on analyzing object motion through techniques like [object tracking](https://docs.ultralytics.com/modes/track/), crucial for applications like autonomous vehicles and traffic monitoring.
-- [Distance Calculation](distance-calculation.md) 🚀 NEW: Distance calculation, which involves measuring the separation between two objects within a defined space, is a crucial aspect. In the context of Ultralytics YOLOv8, the method employed for this involves using the bounding box centroid to determine the distance associated with user-highlighted bounding boxes.
-- [Queue Management](queue-management.md) 🚀 NEW: Queue management is the practice of efficiently controlling and directing the flow of people or tasks, often through strategic planning and technology implementation, to minimize wait times and improve overall productivity.
+- [YOLO26 Training Recipe](yolo26-training-recipe.md): Full documentation of the hyperparameters, augmentation pipelines, and optimizer settings used to train the official YOLO26 base checkpoints on COCO, with practical fine-tuning guidance.
+- [YOLO Common Issues](yolo-common-issues.md) ⭐ RECOMMENDED: Practical solutions and troubleshooting tips to the most frequently encountered issues when working with Ultralytics YOLO models.
+- [YOLO Data Augmentation](yolo-data-augmentation.md): Master the complete range of data augmentation techniques in YOLO, from basic transformations to advanced strategies for improving model robustness and performance.
+- [YOLO Performance Metrics](yolo-performance-metrics.md) ⭐ ESSENTIAL: Understand the key metrics like mAP, IoU, and [F1 score](https://www.ultralytics.com/glossary/f1-score) used to evaluate the performance of your YOLO models. Includes practical examples and tips on how to improve detection accuracy and speed.
+- [YOLO Thread-Safe Inference](yolo-thread-safe-inference.md): Guidelines for performing inference with YOLO models in a thread-safe manner. Learn the importance of thread safety and best practices to prevent race conditions and ensure consistent predictions.
 
 ## Contribute to Our Guides
 
 We welcome contributions from the community! If you've mastered a particular aspect of Ultralytics YOLO that's not yet covered in our guides, we encourage you to share your expertise. Writing a guide is a great way to give back to the community and help us make our documentation more comprehensive and user-friendly.
 
-To get started, please read our [Contributing Guide](../help/contributing.md) for guidelines on how to open up a Pull Request (PR) 🛠️. We look forward to your contributions!
+To get started, please read our [Contributing Guide](../help/contributing.md) for guidelines on how to open a Pull Request (PR). We look forward to your contributions.
 
-Let's work together to make the Ultralytics YOLO ecosystem more robust and versatile 🙏!
+## FAQ
+
+### How do I train a custom object detection model using Ultralytics YOLO?
+
+Training a custom object detection model with Ultralytics YOLO is straightforward. Start by preparing your dataset in the correct format and installing the Ultralytics package. Use the following code to initiate training:
+
+!!! example
+
+    === "Python"
+
+        ```python
+        from ultralytics import YOLO
+
+        model = YOLO("yolo26n.pt")  # Load a pretrained YOLO model
+        model.train(data="path/to/dataset.yaml", epochs=50)  # Train on custom dataset
+        ```
+
+    === "CLI"
+
+        ```bash
+        yolo task=detect mode=train model=yolo26n.pt data=path/to/dataset.yaml epochs=50
+        ```
+
+For detailed dataset formatting and additional options, refer to our [Tips for Model Training](model-training-tips.md) guide.
+
+### What performance metrics should I use to evaluate my YOLO model?
+
+Evaluating your YOLO model performance is crucial to understanding its efficacy. Key metrics include [Mean Average Precision](https://www.ultralytics.com/glossary/mean-average-precision-map) (mAP), [Intersection over Union](https://www.ultralytics.com/glossary/intersection-over-union-iou) (IoU), and F1 score. These metrics help assess the accuracy and [precision](https://www.ultralytics.com/glossary/precision) of object detection tasks. You can learn more about these metrics and how to improve your model in our [YOLO Performance Metrics](yolo-performance-metrics.md) guide.
+
+### Why should I use Ultralytics Platform for my computer vision projects?
+
+Ultralytics Platform is a no-code platform that simplifies managing, training, and deploying YOLO models. It supports seamless integration, real-time tracking, and cloud training, making it ideal for both beginners and professionals. Discover more about its features and how it can streamline your workflow with our [Ultralytics Platform](https://docs.ultralytics.com/platform/) quickstart guide.
+
+### What are the common issues faced during YOLO model training, and how can I resolve them?
+
+Common issues during YOLO model training include data formatting errors, model architecture mismatches, and insufficient [training data](https://www.ultralytics.com/glossary/training-data). To address these, ensure your dataset is correctly formatted, check for compatible model versions, and augment your training data. For a comprehensive list of solutions, refer to our [YOLO Common Issues](yolo-common-issues.md) guide.
+
+### How can I deploy my YOLO model for real-time object detection on edge devices?
+
+Deploying YOLO models on edge devices like NVIDIA Jetson and Raspberry Pi requires converting the model to a compatible format such as TensorRT or TFLite. Follow our step-by-step guides for [NVIDIA Jetson](nvidia-jetson.md) and [Raspberry Pi](raspberry-pi.md) deployments to get started with real-time object detection on edge hardware. These guides will walk you through installation, configuration, and performance optimization.
