@@ -159,36 +159,9 @@ pip install -r requirements.txt
 cd object_detection
 ```
 
-### 16) Convert dataset to TFS format
-```bash
-cd ./datasets/dataset_create_tfs
-```
-- update dataset_config.yaml with the coco dataset paths as follows and make sure to keep the paths consistent with the ones used in the previous steps in the ST Ultralytics fork, you can also adjust the max_detections and exclude_unlabeled_images settings as needed.
+### 16) Update user_config.yaml to quantize and evaluate exported ONNX model
 
-```yaml
-dataset:
-  dataset_name: coco_80_val
-  training_path: ../../../../ultralytics/examples/YOLOv8-STEdgeAI/datasets/coco/images/val
-  validation_path: ../../../../ultralytics/examples/YOLOv8-STEdgeAI/datasets/coco/images/val
-  test_path: ../../../../ultralytics/examples/YOLOv8-STEdgeAI/datasets/coco/images/val
-
-settings:
-  max_detections: 20
-  exclude_unlabeled_images: True # If set to False, images without ground truths will be included in the dataset.
-  
-hydra:
-  run:
-    dir: outputs/${now:%Y_%m_%d_%H_%M_%S}
-
-```
-
-### 17) Navigate back to object_detection and run dataset conversion script
-
-```bash
-cd ../..
-```
-
-### 18) Update user_config.yaml to quantize and evaluate exported ONNX model
+Update the user_config.yaml file with the following content, and make sure to update the model_path with the path to the exported ONNX model from the previous steps and the dataset paths to point to the COCO validation images and labels in YOLO format generated in the previous steps:
 
 ```yaml
 
@@ -199,8 +172,10 @@ model:
    model_path: tuto/ultralytics/runs/detect/train/weights/best.onnx
 
 dataset:
-  dataset_name: coco
-  format: tfs
+  format: darknet_yolo
+  dataset_name: darknet_yolo
+  exclude_unlabeled: true
+  download_data: false
   class_names: ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 'truck', 'boat', 'traffic light',
                     'fire hydrant', 'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow',
                     'elephant', 'bear', 'zebra', 'giraffe', 'backpack', 'umbrella', 'handbag', 'tie', 'suitcase',
@@ -210,8 +185,9 @@ dataset:
                     'pizza', 'donut', 'cake', 'chair', 'couch', 'potted plant', 'bed', 'dining table',
                     'toilet','tv','laptop','mouse','remote','keyboard','cell phone','microwave','oven','toaster',
                     'sink','refrigerator','book','clock','vase','scissors','teddy bear','hair drier','toothbrush']
-  test_path: ../../../../ultralytics/examples/ST-YOLO/datasets/coco/images/val
-  quantization_path: ../../../../ultralytics/examples/ST-YOLO/datasets/coco/images/val
+  test_images_path: tuto/ultralytics/examples/YOLOv8-STEdgeAI/datasets/coco/images/val 
+  test_annotations_path: tuto/ultralytics/examples/YOLOv8-STEdgeAI/datasets/coco/labels/val
+  quantization_path: tuto/ultralytics/examples/YOLOv8-STEdgeAI/datasets/coco/images/val
   quantization_split: 0.001
 
 preprocessing:
@@ -254,7 +230,7 @@ hydra:
 python stm32ai_main.py
 ```
 
-### 19) Deploy exported ONNX model on N6
+### 17) Deploy exported ONNX model on N6
 
 - update user_config.yaml to deploy the onnx model on the N6 as follows, and make sure to update the model_path with the path to the quantized model generated from the previous step:
 
