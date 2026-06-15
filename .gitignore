@@ -159,7 +159,6 @@ weights/
 *.pt
 *.ts
 *.pb
-*.onnx
 *.engine
 *.mlmodel
 *.mlpackage
