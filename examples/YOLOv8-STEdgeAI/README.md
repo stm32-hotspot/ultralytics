@@ -21,9 +21,11 @@ This repository provides a collection of pre-trained and quantized yolov8, yolo1
 | [YOLOv8n](stedgeai_models/object_detection/)                | person_detection     | 320x320x3         | per channel int8               | uint8           | float                 |
 | [YOLOv8n](stedgeai_models/object_detection/)                | person_detection     | 416x416x3         | per channel int8               | uint8           | float                 |
 | [YOLO11n](stedgeai_models/object_detection/yolo11)          | person_detection     | 256x256x3         | per channel int8               | uint8           | float                 |
+| [YOLO26n](stedgeai_models/object_detection/yolo26)          | person_detection     | 3x256x256         | per channel int8               | float           | float                 |
+| [YOLO26n](stedgeai_models/object_detection/yolo26)          | person_detection     | 3x320x320         | per channel int8               | float           | float                 |
 | [YOLOv8n](stedgeai_models/gesture_detection/)               | gesture detection    | 256x256x3         | per channel int8               | uint8           | float                 |
 | [YOLOv8n](stedgeai_models/gesture_detection/)               | gesture detection    | 320x320x3         | per channel int8               | uint8           | float                 |
-| [YOLOv8n](stedgeai_models/pose_estimation/)                 | pose_estimation      | 256x256x3         | per tensor int8                | uint8           | float                 |
+| [YOLOv8n](stedgeai_models/pose_estimation/)                 | pose_estimation      | 256x256x3         | per tensor  int8               | uint8           | float                 |
 | [YOLOv8n](stedgeai_models/pose_estimation/)                 | pose_estimation      | 256x256x3         | per channel int8               | uint8           | float                 |
 | [YOLOv8n](stedgeai_models/pose_estimation/)                 | pose_estimation      | 320x320x3         | per channel int8               | uint8           | float                 |
 | [YOLOv8n](stedgeai_models/pose_estimation/)                 | pose_estimation      | 192x192x3         | per channel int8               | uint8           | float                 |
